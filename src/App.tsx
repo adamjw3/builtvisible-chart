@@ -16,31 +16,25 @@ const App: React.FC = () => {
   const chlamydiaMin = Math.min(...data.map(d => parseFloat(d.ChlamydiaDiagnosisRate)));
   const chlamydiaMax = Math.max(...data.map(d => parseFloat(d.ChlamydiaDiagnosisRate)));
   
-  // Get unique regions and sort them alphabetically
   const regions: string[] = [...new Set(data.map(item => item.Region))].sort();
   
-  // Get locations for selected region
   const locations: string[] = data
     .filter(item => selectedRegion === '' || item.Region === selectedRegion)
     .map(item => item.AreaName)
     .sort();
 
-  // Handle region selection
   const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const region = e.target.value;
     setSelectedRegion(region);
-    setSelectedLocation(''); // Reset location when region changes
-    // Reset rates when region changes
+    setSelectedLocation(''); 
     setGonorrheaRate(0);
     setChlamydiaRate(0);
   };
 
-  // Handle location selection
   const handleLocationChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const location = e.target.value;
     setSelectedLocation(location);
-    
-    // Update rates when location is selected
+
     if (location) {
       const selectedData = data.find(
         item => item.Region === selectedRegion && item.AreaName === location
@@ -52,9 +46,8 @@ const App: React.FC = () => {
         setChlamydiaRate(parseInt(selectedData.ChlamydiaDiagnosisRate));
       }
     } else {
-      // Reset rates if no location is selected
-      setGonorrheaRate(0);
-      setChlamydiaRate(0);
+      setGonorrheaRate(40);
+      setChlamydiaRate(40);
     }
   };
 
@@ -67,7 +60,7 @@ const App: React.FC = () => {
     if (rate === 0) return 0;
 
     let minDiameter = 87;
-    let maxDiameter = 270; // Cap the diameter at 279
+    let maxDiameter = 270;
     let additional = 80
 
     if (window.innerWidth < 480) {

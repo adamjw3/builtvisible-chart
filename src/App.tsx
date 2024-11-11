@@ -6,10 +6,15 @@ import data from './data/data.json';
 const App: React.FC = () => {
   const [selectedRegion, setSelectedRegion] = useState<string>('');
   const [selectedLocation, setSelectedLocation] = useState<string>('');
-  const [gonorrheaRate, setGonorrheaRate] = useState<number | null>(null);
-  const [chlamydiaRate, setChlamydiaRate] = useState<number | null>(null);
-  const [gonorrheaUKRate, setGonorrheaUKRate] = useState<number | null>(null);
-  const [chlamydiaUKRate, setChlamydiaUKRate] = useState<number | null>(null);
+  const [gonorrheaRate, setGonorrheaRate] = useState<number>(0);
+  const [chlamydiaRate, setChlamydiaRate] = useState<number>(0);
+  const [gonorrheaUKRate, setGonorrheaUKRate] = useState<number>(0);
+  const [chlamydiaUKRate, setChlamydiaUKRate] = useState<number>(0);
+
+  const gonorrheaMin = Math.min(...data.map(d => parseFloat(d.GonorrheaDiagnosisRate)));
+  const gonorrheaMax = Math.max(...data.map(d => parseFloat(d.GonorrheaDiagnosisRate)));
+  const chlamydiaMin = Math.min(...data.map(d => parseFloat(d.ChlamydiaDiagnosisRate)));
+  const chlamydiaMax = Math.max(...data.map(d => parseFloat(d.ChlamydiaDiagnosisRate)));
   
   // Get unique regions and sort them alphabetically
   const regions: string[] = [...new Set(data.map(item => item.Region))].sort();
@@ -26,8 +31,8 @@ const App: React.FC = () => {
     setSelectedRegion(region);
     setSelectedLocation(''); // Reset location when region changes
     // Reset rates when region changes
-    setGonorrheaRate(null);
-    setChlamydiaRate(null);
+    setGonorrheaRate(0);
+    setChlamydiaRate(0);
   };
 
   // Handle location selection
@@ -41,38 +46,31 @@ const App: React.FC = () => {
         item => item.Region === selectedRegion && item.AreaName === location
       );
       if (selectedData) {
-        setChlamydiaUKRate(parseFloat("365.0211338"));
-        setGonorrheaUKRate(parseFloat("172.2033046"));
-        setGonorrheaRate(parseFloat(selectedData.GonorrheaDiagnosisRate));
-        setChlamydiaRate(parseFloat(selectedData.ChlamydiaDiagnosisRate));
+        setChlamydiaUKRate(parseInt("365.0211338"));
+        setGonorrheaUKRate(parseInt("172.2033046"));
+        setGonorrheaRate(parseInt(selectedData.GonorrheaDiagnosisRate));
+        setChlamydiaRate(parseInt(selectedData.ChlamydiaDiagnosisRate));
       }
     } else {
       // Reset rates if no location is selected
-      setGonorrheaRate(null);
-      setChlamydiaRate(null);
+      setGonorrheaRate(0);
+      setChlamydiaRate(0);
     }
   };
 
-  const formatRate = (rate: number | null): string => {
-    return rate !== null ? rate.toFixed(1) : "0";
+  const formatRate = (rate: number): string => {
+    return rate !== 0 ? rate.toFixed(1) : "0";
   };
 
 
- const scaleToDiameter = (value: number | null, minRate: number, maxRate: number): number => {
-  const MIN_DIAMETER = 50;
-  const MAX_DIAMETER = 280;
+  const scaleToDiameter = (rate: number, min: number, max: number): number => {
+  if (rate === 0) return 0;
 
-   // Handle null value
-  if (value === null) return MIN_DIAMETER;
-  
-  // Prevent division by zero and handle edge cases
-  if (minRate === maxRate) return MIN_DIAMETER;
-  if (value <= minRate) return MIN_DIAMETER;
-  if (value >= maxRate) return MAX_DIAMETER;
+  const minDiameter = 87;
+  const maxDiameter = 270; // Cap the diameter at 279
+  const calculatedDiameter = minDiameter + ((rate - min) / (max - min)) * (maxDiameter - minDiameter) + 80;
 
-  const scaledDiameter = MIN_DIAMETER + (value - minRate) * (MAX_DIAMETER - MIN_DIAMETER) / (maxRate - minRate);
-  
-  return Math.round(scaledDiameter);
+  return Math.min(calculatedDiameter, maxDiameter);
 };
 
   return (
@@ -118,8 +116,8 @@ const App: React.FC = () => {
       <div className='chart'>
         <div className='chart__item'>
           <div className='chart__graph'>
-            <Circle diameter={scaleToDiameter(gonorrheaUKRate, 33.3856, 1295.0898)} clipPathName="Gonorrhea-England"/>
-            <Circle diameter={scaleToDiameter(gonorrheaRate, 33.3856, 1295.0898)} maskedSide='left' fillColor="#E33283" clipPathName="Gonorrhea-Region"/>
+            <Circle diameter={scaleToDiameter(gonorrheaUKRate, gonorrheaMin, gonorrheaMax)} clipPathName="Gonorrhea-England"/>
+            <Circle diameter={scaleToDiameter(gonorrheaRate, gonorrheaMin, gonorrheaMax)} maskedSide='left' fillColor="#E33283" clipPathName="Gonorrhea-Region"/>
             <img src={ChartBg} alt='' className='chart__title'/>
             <span className='chart__header'>Gonorrhea</span>
           </div>
@@ -136,8 +134,8 @@ const App: React.FC = () => {
         </div>
         <div className='chart__item'>
           <div className='chart__graph'>
-            <Circle diameter={scaleToDiameter(chlamydiaUKRate, 148.6296, 1419.7694)} clipPathName="Chlamydia-England"/>
-            <Circle diameter={scaleToDiameter(chlamydiaRate, 148.6296, 1419.7694)} maskedSide='left' fillColor="#E33283" clipPathName="Chlamydia-Region"/>
+            <Circle diameter={scaleToDiameter(chlamydiaUKRate, chlamydiaMin, chlamydiaMax)} clipPathName="Chlamydia-England"/>
+            <Circle diameter={scaleToDiameter(chlamydiaRate, chlamydiaMin, chlamydiaMax)} maskedSide='left' fillColor="#E33283" clipPathName="Chlamydia-Region"/>
             <img src={ChartBg} alt='' className='chart__title'/>
             <span className='chart__header'>Chlamydia</span>          
           </div>

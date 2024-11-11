@@ -46,8 +46,8 @@ const App: React.FC = () => {
         setChlamydiaRate(parseInt(selectedData.ChlamydiaDiagnosisRate));
       }
     } else {
-      setGonorrheaRate(40);
-      setChlamydiaRate(40);
+      setGonorrheaRate(0);
+      setChlamydiaRate(0);
     }
   };
 
@@ -57,7 +57,7 @@ const App: React.FC = () => {
 
 
   const scaleToDiameter = (rate: number, min: number, max: number): number => {
-    if (rate === 0) return 0;
+    if (rate === 0) return 20;
 
     let minDiameter = 87;
     let maxDiameter = 270;

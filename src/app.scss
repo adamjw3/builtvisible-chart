@@ -1,0 +1,299 @@
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+
+@mixin urbanist-regular {
+  font-family: "Urbanist", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+@mixin urbanist-bold {
+  font-family: "Urbanist", serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
+@mixin urbanist-extra-bold {
+  font-family: "Urbanist", serif;
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: normal;
+}
+
+#sti-chart {
+
+  *,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+  .chart-container {
+        background: transparent url('./assets/background.png') 0 0 no-repeat;
+        background-size: cover;
+        max-width: 100%;
+        margin: 0 auto;
+        position: relative;
+        padding: 24px 20px;
+
+        @media screen and (min-width: 480px) {
+            max-width: 800px;
+            margin: 0 auto;
+            overflow: hidden;
+            padding: 40px 32px;
+        }
+  }
+
+
+  .chart-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: transparent url('./assets/map.png') 0 0 no-repeat;
+    padding-left: 91px;
+    height: 144px;
+    margin-bottom: 30px;
+
+     @media screen and (min-width: 480px) {
+      padding-left: 97px;
+      height: 120px;
+     }
+
+     &__heading {
+      @include urbanist-bold();
+      font-size: 32px;
+      margin: 0 0 10px 0;
+      background-color: #7200CC;
+      background-image: linear-gradient(90deg, #7200CC, #1C0032);
+      background-size: 100%;
+      background-repeat: repeat;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent; 
+      -moz-background-clip: text;
+      -moz-text-fill-color: transparent;
+
+       @media screen and (min-width: 480px) {
+        @include urbanist-extra-bold();
+        font-size: 48px;
+       }
+     }
+
+     &__intro {
+      @include urbanist-regular();
+      color: #121212;
+      font-size: 14px;
+
+       @media screen and (min-width: 480px) {
+        font-size: 16px;
+       }
+     }
+  }
+
+  .chart-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 30px;
+
+     @media screen and (min-width: 480px) {
+        flex-direction: row;
+        gap: 24px;
+     }
+
+    .select {
+      @include urbanist-bold();
+      border-radius: 8px;
+      border: 1px solid #8F00FF;
+      height: 48px;
+      padding: 12px 16px;
+      font-size: 18px;
+      width: 100%;
+      position: relative;
+      z-index: 2;
+
+      &::before {
+        content: "";
+        display: block;
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      &::after {
+        content: "";
+        display: block;
+        background: transparent url('./assets/chevron-down.png') 0 0 no-repeat;
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      &--region {
+        &::before {
+        background: transparent url('./assets/region.png') 0 0 no-repeat;
+              }      
+        }
+
+      &--location {
+         &::before {
+         background: transparent url('./assets/location.png') 0 0 no-repeat;
+         }
+      }
+
+
+      select {
+        @include urbanist-bold();
+        width: 100%;
+        appearance: none;
+        background-color: transparent;
+        border: none;
+        padding: 0 0 0 32px;
+        margin: 0;
+        font-family: inherit;
+        font-size: inherit;
+        cursor: inherit;
+        line-height: inherit;
+        position: relative;
+        z-index: 2;
+        &::-ms-expand {
+          display: none;
+        }
+        outline: none;
+
+      }
+    }
+  }
+
+  .chart-legend {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 30px;
+
+    div {
+      width: 100%;
+
+      span {
+        @include urbanist-regular();
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 11px;
+
+
+        &::before {
+          content: '';
+          display: block;
+          background-color: #E33283;
+          width: 12px;
+          height: 12px;
+          border-radius: 100%;
+        }
+      }
+
+      &:first-of-type {
+        text-align: right;
+
+        span {
+          justify-content: flex-end;
+
+           &::before {
+            background-color: #8F00FF;
+           }
+        }
+      }
+    }
+  }
+
+
+  .chart {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+
+     @media screen and (min-width: 480px) {
+      gap: 80px;
+     }
+
+     &__item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+     }
+
+     &__graph {
+      background: transparent url('./assets/chart-bg.png') 0 0 no-repeat;
+      background-size: cover;
+      height: 160px;
+      width: 160px;
+      position: relative;
+
+       @media screen and (min-width: 480px) {
+          height: 280px;
+          width: 280px;
+       }
+     }
+
+     &__title {
+      position: absolute;
+      z-index: 10;
+      width: 100%;
+     }
+
+     &__header {
+      @include urbanist-bold();
+      color: #ffffff;
+      position: absolute;
+      z-index: 11;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%);
+      line-height: 0;
+      font-size: 8px;
+     }
+
+     &__results {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+
+        div {
+          @include urbanist-regular();
+          font-size: 10px;
+
+          @media screen and (min-width: 480px) {
+            font-size: 14px;
+          }
+
+          span {
+            @include urbanist-extra-bold();
+            display: block;
+            font-size: 14px;
+
+             @media screen and (min-width: 480px) {
+               font-size: 18px;
+             }
+          }
+        }
+
+        div:last-of-type {
+          text-align: right;
+        }
+        
+     }
+  }
+
+  .responsive-circle {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+}

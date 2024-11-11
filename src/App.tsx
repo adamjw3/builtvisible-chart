@@ -64,14 +64,22 @@ const App: React.FC = () => {
 
 
   const scaleToDiameter = (rate: number, min: number, max: number): number => {
-  if (rate === 0) return 0;
+    if (rate === 0) return 0;
 
-  const minDiameter = 87;
-  const maxDiameter = 270; // Cap the diameter at 279
-  const calculatedDiameter = minDiameter + ((rate - min) / (max - min)) * (maxDiameter - minDiameter) + 80;
+    let minDiameter = 87;
+    let maxDiameter = 270; // Cap the diameter at 279
+    let additional = 80
 
-  return Math.min(calculatedDiameter, maxDiameter);
-};
+    if (window.innerWidth < 480) {
+      minDiameter = 60;
+      maxDiameter = 150;
+      additional = 60;
+    }
+
+    const calculatedDiameter = minDiameter + ((rate - min) / (max - min)) * (maxDiameter - minDiameter) + additional;
+
+    return Math.min(calculatedDiameter, maxDiameter);
+  };
 
   return (
     <div className="chart-container">

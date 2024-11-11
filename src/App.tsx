@@ -58,9 +58,12 @@ const App: React.FC = () => {
   };
 
 
- const scaleToDiameter = (value: number, minRate: number, maxRate: number): number => {
+ const scaleToDiameter = (value: number | null, minRate: number, maxRate: number): number => {
   const MIN_DIAMETER = 50;
   const MAX_DIAMETER = 280;
+
+   // Handle null value
+  if (value === null) return MIN_DIAMETER;
   
   // Prevent division by zero and handle edge cases
   if (minRate === maxRate) return MIN_DIAMETER;

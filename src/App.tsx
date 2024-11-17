@@ -52,7 +52,7 @@ const App: React.FC = () => {
   };
 
   const formatRate = (rate: number): string => {
-    return rate !== 0 ? rate.toFixed(1) : "0";
+    return rate !== 0 ? rate.toFixed(0) : "0";
   };
 
 
@@ -79,7 +79,7 @@ const App: React.FC = () => {
       <header className='chart-header'>
         <div>
           <h1 className='chart-header__heading'>STI Risk Tracker</h1>
-          <p className='chart-header__intro'>This tool is designed to help you stay informed about sexual health in your area.</p>
+          <p className='chart-header__intro'>Discover how your area compares to the national average for STIs. Select your location to see if rates of Chlamydia and Gonorrhea are above or below the average in England</p>
         </div>
       </header>
       <div className="chart-form">
@@ -111,7 +111,7 @@ const App: React.FC = () => {
       </div>
       <div className="chart-legend">
           <div>
-            <span>England</span></div>
+            <span>Average across England</span></div>
           <div><span>Region</span></div>
       </div>
       <div className='chart'>

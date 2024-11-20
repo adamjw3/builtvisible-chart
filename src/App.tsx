@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Circle from './components/Circle';
+import ComparisonDisplay from './components/ComparisonDisplay';
 import ChartBg from './assets/chart-title.png'
 import data from './data/data.json';
 
@@ -10,6 +11,9 @@ const App: React.FC = () => {
   const [chlamydiaRate, setChlamydiaRate] = useState<number>(0);
   const [gonorrheaUKRate, setGonorrheaUKRate] = useState<number>(0);
   const [chlamydiaUKRate, setChlamydiaUKRate] = useState<number>(0);
+
+  const [chlamydiaComparison, setChlamydiaComparison] = useState<string>('');
+  const [gonorrheaComparison, setGonorrheaComparison] = useState<string>('');
 
   const gonorrheaMin = Math.min(...data.map(d => parseFloat(d.GonorrheaDiagnosisRate)));
   const gonorrheaMax = Math.max(...data.map(d => parseFloat(d.GonorrheaDiagnosisRate)));
@@ -29,6 +33,8 @@ const App: React.FC = () => {
     setSelectedLocation(''); 
     setGonorrheaRate(0);
     setChlamydiaRate(0);
+    setChlamydiaComparison('');
+    setGonorrheaComparison('');
   };
 
   const handleLocationChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
@@ -44,10 +50,14 @@ const App: React.FC = () => {
         setGonorrheaUKRate(parseInt("172.2033046"));
         setGonorrheaRate(parseInt(selectedData.GonorrheaDiagnosisRate));
         setChlamydiaRate(parseInt(selectedData.ChlamydiaDiagnosisRate));
+        setChlamydiaComparison(selectedData.ChlamydiaComparedToEngland);
+        setGonorrheaComparison(selectedData.GonorrheaComparedToEngland);
       }
     } else {
       setGonorrheaRate(0);
       setChlamydiaRate(0);
+      setChlamydiaComparison('');
+      setGonorrheaComparison('');
     }
   };
 
@@ -123,12 +133,13 @@ const App: React.FC = () => {
             <span className='chart__header'>Gonorrhea</span>
           </div>
           <div className='chart__results'>
-            <div>
-              <span>{formatRate(gonorrheaUKRate)}</span>
+             <div className='chart__results-item'>
+              <span className='chart__results-item-stat'>{formatRate(gonorrheaUKRate)}</span>
               Per 100k People
             </div>
-            <div>
-              <span>{formatRate(gonorrheaRate)}</span>
+             <div className='chart__results-item'>
+              <ComparisonDisplay value={gonorrheaComparison} />
+              <span className='chart__results-item-stat'>{formatRate(gonorrheaRate)}</span>
               Per 100k People
             </div>
           </div>
@@ -141,12 +152,13 @@ const App: React.FC = () => {
             <span className='chart__header'>Chlamydia</span>          
           </div>
          <div className='chart__results'>
-            <div>
-              <span>{formatRate(chlamydiaUKRate)}</span>
+            <div className='chart__results-item'>
+              <span className='chart__results-item-stat'>{formatRate(chlamydiaUKRate)}</span>
               Per 100k People
             </div>
-            <div>
-              <span>{formatRate(chlamydiaRate)}</span>
+            <div className='chart__results-item'>
+              <ComparisonDisplay value={chlamydiaComparison} />
+              <span className='chart__results-item-stat'>{formatRate(chlamydiaRate)}</span>
               Per 100k People
             </div>
           </div>

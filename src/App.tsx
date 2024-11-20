@@ -4,6 +4,9 @@ import ComparisonDisplay from './components/ComparisonDisplay';
 import ChartBg from './assets/chart-title.png'
 import data from './data/data.json';
 
+type ComparisonValue = '' | 'Above average' | 'Below average' | 'Average';
+
+
 const App: React.FC = () => {
   const [selectedRegion, setSelectedRegion] = useState<string>('');
   const [selectedLocation, setSelectedLocation] = useState<string>('');
@@ -12,8 +15,8 @@ const App: React.FC = () => {
   const [gonorrheaUKRate, setGonorrheaUKRate] = useState<number>(0);
   const [chlamydiaUKRate, setChlamydiaUKRate] = useState<number>(0);
 
-  const [chlamydiaComparison, setChlamydiaComparison] = useState<string>('');
-  const [gonorrheaComparison, setGonorrheaComparison] = useState<string>('');
+  const [chlamydiaComparison, setChlamydiaComparison] = useState<ComparisonValue>('');
+  const [gonorrheaComparison, setGonorrheaComparison] = useState<ComparisonValue>('');
 
   const gonorrheaMin = Math.min(...data.map(d => parseFloat(d.GonorrheaDiagnosisRate)));
   const gonorrheaMax = Math.max(...data.map(d => parseFloat(d.GonorrheaDiagnosisRate)));

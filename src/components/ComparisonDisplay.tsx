@@ -2,8 +2,10 @@ import aboveAverage from '../assets/above-average.png';
 import belowAverage from '../assets/below-average.png';
 import average from '../assets/average.png';
 
+type ComparisonValue = '' | 'Above average' | 'Below average' | 'Average';
+
 interface ComparisonDisplayProps {
-  value: 'Above average' | 'Below average' | 'Average' | '';
+  value?: ComparisonValue;
 }
 
 const ComparisonDisplay: React.FC<ComparisonDisplayProps> = ({ value }) => {

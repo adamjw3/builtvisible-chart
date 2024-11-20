@@ -36,8 +36,8 @@ const App: React.FC = () => {
     setSelectedLocation(''); 
     setGonorrheaRate(0);
     setChlamydiaRate(0);
-    setChlamydiaComparison('');
-    setGonorrheaComparison('');
+    setChlamydiaComparison('' as ComparisonValue);
+    setGonorrheaComparison('' as ComparisonValue);
   };
 
   const handleLocationChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
@@ -53,8 +53,8 @@ const App: React.FC = () => {
         setGonorrheaUKRate(parseInt("172.2033046"));
         setGonorrheaRate(parseInt(selectedData.GonorrheaDiagnosisRate));
         setChlamydiaRate(parseInt(selectedData.ChlamydiaDiagnosisRate));
-        setChlamydiaComparison(selectedData.ChlamydiaComparedToEngland);
-        setGonorrheaComparison(selectedData.GonorrheaComparedToEngland);
+        setChlamydiaComparison(selectedData.ChlamydiaComparedToEngland as ComparisonValue);
+        setGonorrheaComparison(selectedData.GonorrheaComparedToEngland as ComparisonValue);
       }
     } else {
       setGonorrheaRate(0);

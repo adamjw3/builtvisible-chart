@@ -130,8 +130,8 @@ const App: React.FC = () => {
         </div>
       </header>
       <div className="chart-form">
-        <div className="select select--region">
-          <select value={selectedRegion} onChange={handleRegionChange}>
+        <div className="chart-selects chart-selects--region">
+          <select value={selectedRegion} onChange={handleRegionChange} className="chart-select">
             <option value="">Select a region</option>
             {regions.map(region => (
               <option key={region} value={region}>
@@ -140,11 +140,12 @@ const App: React.FC = () => {
             ))}
           </select>
         </div>
-        <div className="select select--location">
+        <div className="chart-selects chart-selects--location">
           <select
             value={selectedLocation}
             onChange={handleLocationChange}
             disabled={!selectedRegion}
+            className="chart-select"
           >
             <option value="">Pick a location</option>
             {locations.map(location => (
